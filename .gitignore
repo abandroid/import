@@ -3,6 +3,3 @@
 /composer.phar
 /phpunit.xml
 /vendor
-
-/src/DemoBundle/Resources/data
-!/src/DemoBundle/Resources/.gitkeep
