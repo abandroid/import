@@ -23,6 +23,10 @@ class Configuration implements ConfigurationInterface
 
         $treeBuilder
             ->root('endroid_import')
+                ->children()
+                    ->integerNode('time_limit')->end()
+                    ->scalarNode('memory_limit')->end()
+            ->end()
         ;
 
         return $treeBuilder;
