@@ -30,5 +30,5 @@ abstract class AbstractLoader
     /**
      * @return array
      */
-    abstract function loadNext();
+    abstract public function loadNext();
 }

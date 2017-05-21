@@ -7,7 +7,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Endroid\Import\DemoBundle\Loader;
+namespace Endroid\Import\Bundle\ImportDemoBundle\Loader;
 
 use Endroid\Import\Loader\AbstractLoader;
 
@@ -16,8 +16,8 @@ class WebsiteProductLoader extends AbstractLoader
     /**
      * {@inheritdoc}
      */
-    function loadNext()
+    public function loadNext()
     {
-        return [];
+        return null;
     }
 }

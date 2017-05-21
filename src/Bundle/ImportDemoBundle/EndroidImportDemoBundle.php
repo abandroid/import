@@ -7,10 +7,10 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Endroid\Import\Bundle;
+namespace Endroid\Import\Bundle\ImportDemoBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class EndroidImportBundle extends Bundle
+class EndroidImportDemoBundle extends Bundle
 {
 }

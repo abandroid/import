@@ -9,7 +9,7 @@
 
 namespace Endroid\Import\Importer;
 
-use Endroid\Import\Loader\LoaderInterface;
+use Endroid\Import\Loader\AbstractLoader;
 use Endroid\Import\ProgressHandler\ProgressHandlerInterface;
 use Endroid\Import\State;
 
@@ -21,7 +21,7 @@ class Importer
     protected $state;
 
     /**
-     * @var LoaderInterface[]
+     * @var AbstractLoader[]
      */
     protected $loaders;
 
@@ -31,21 +31,38 @@ class Importer
     protected $progressHandler;
 
     /**
-     * Constructor.
+     * @param AbstractLoader[] $loaders
      */
-    public function __construct()
+    public function __construct(array $loaders = [])
     {
         $this->loaders = [];
+
+        foreach ($loaders as $loader) {
+            $this->addLoader($loader);
+        }
     }
 
     /**
-     * @param LoaderInterface $loader
+     * @param ProgressHandlerInterface $progressHandler
      * @return $this
      */
-    public function addLoader(LoaderInterface $loader)
+    public function setProgressHandler(ProgressHandlerInterface $progressHandler)
+    {
+        $this->progressHandler = $progressHandler;
+
+        return $this;
+    }
+
+    /**
+     * @param AbstractLoader $loader
+     * @return $this
+     */
+    public function addLoader(AbstractLoader $loader)
     {
         $this->loaders[get_class($loader)] = $loader;
         $loader->setImporter($this);
+
+        return $this;
     }
 
     /**

@@ -7,10 +7,10 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Endroid\Import\DemoBundle;
+namespace Endroid\Import\Bundle\ImportDemoBundle\Command;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Endroid\Import\Command\AbstractImportCommand;
 
-class EndroidImportDemoBundle extends Bundle
+class ProductImportCommand extends AbstractImportCommand
 {
 }
