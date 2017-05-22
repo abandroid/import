@@ -10,6 +10,8 @@
 namespace Endroid\Import\Loader;
 
 use Endroid\Import\Importer\Importer;
+use Endroid\Import\ProgressHandler\ProgressHandlerInterface;
+use Endroid\Import\State;
 
 abstract class AbstractLoader
 {
@@ -19,12 +21,24 @@ abstract class AbstractLoader
     protected $importer;
 
     /**
+     * @var State
+     */
+    protected $state;
+
+    /**
+     * @var ProgressHandlerInterface
+     */
+    protected $progressHandler;
+
+    /**
      * @param Importer $importer
      * @return $this
      */
     public function setImporter(Importer $importer)
     {
         $this->importer = $importer;
+        $this->state = $importer->getState();
+        $this->progressHandler = $importer->getProgressHandler();
     }
 
     /**

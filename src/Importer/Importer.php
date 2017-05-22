@@ -16,14 +16,14 @@ use Endroid\Import\State;
 class Importer
 {
     /**
-     * @var State
-     */
-    protected $state;
-
-    /**
      * @var AbstractLoader[]
      */
     protected $loaders;
+
+    /**
+     * @var State
+     */
+    protected $state;
 
     /**
      * @var ProgressHandlerInterface
@@ -36,10 +36,19 @@ class Importer
     public function __construct(array $loaders = [])
     {
         $this->loaders = [];
+        $this->state = new State();
 
         foreach ($loaders as $loader) {
             $this->addLoader($loader);
         }
+    }
+
+    /**
+     * @return State
+     */
+    public function getState()
+    {
+        return $this->state;
     }
 
     /**
@@ -51,6 +60,14 @@ class Importer
         $this->progressHandler = $progressHandler;
 
         return $this;
+    }
+
+    /**
+     * @return ProgressHandlerInterface
+     */
+    public function getProgressHandler()
+    {
+        return $this->progressHandler;
     }
 
     /**
@@ -72,8 +89,7 @@ class Importer
     {
         foreach ($this->loaders as $loader) {
             while ($data = $loader->loadNext()) {
-                dump($data);
-                die;
+
             }
         }
     }
