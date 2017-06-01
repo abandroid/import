@@ -13,12 +13,17 @@ use Endroid\Import\Importer\Importer;
 use Endroid\Import\ProgressHandler\ProgressHandlerInterface;
 use Endroid\Import\State;
 
-abstract class AbstractLoader
+abstract class AbstractLoader implements LoaderInterface
 {
     /**
      * @var Importer
      */
     protected $importer;
+
+    /**
+     * @var bool
+     */
+    protected $active = true;
 
     /**
      * @var State
@@ -42,7 +47,31 @@ abstract class AbstractLoader
     }
 
     /**
+     * @return bool
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param bool $active
+     * @return $this
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     abstract public function loadNext();
+
+    /**
+     * @return string
+     */
+    abstract public function getName();
 }

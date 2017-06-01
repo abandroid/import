@@ -27,11 +27,14 @@ class ProductCollectionLoader extends AbstractLoader
         $this->ensureIterator();
 
         if (!$this->iterator->valid()) {
+            $this->setActive(false);
             return null;
         }
 
         $item = $this->iterator->current();
         $this->iterator->next();
+
+        $this->importer->setActiveLoader('mobile_product_loader');
 
         return $item;
     }
@@ -47,5 +50,13 @@ class ProductCollectionLoader extends AbstractLoader
 
         $this->iterator = new XmlIterator(__DIR__.'/../Resources/data/product_collection_data.xml', 'product');
         $this->iterator->rewind();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'product_collection_loader';
     }
 }

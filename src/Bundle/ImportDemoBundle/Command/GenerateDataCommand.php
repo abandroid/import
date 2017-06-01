@@ -60,7 +60,7 @@ class GenerateDataCommand extends Command
     protected function createProducts()
     {
         $products = [];
-        for ($n = 1; $n <= 100000; $n++) {
+        for ($n = 1; $n <= 3; $n++) {
             $product = [
                 'id' => $n,
                 'label' => 'Product '.$n,
