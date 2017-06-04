@@ -30,6 +30,11 @@ class Employee
     protected $name;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Endroid\Bundle\ImportBundle\Entity\Location", cascade={"persist"})
+     */
+    protected $location;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Endroid\Bundle\ImportBundle\Entity\Office", cascade={"persist"})
      */
     protected $office;
@@ -57,6 +62,25 @@ class Employee
     public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Location
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param Location $location
+     * @return $this
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
 
         return $this;
     }

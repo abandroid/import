@@ -7,10 +7,8 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Endroid\Import\Bundle\ImportDemoBundle\Command;
+namespace Endroid\Import\Exception;
 
-use Endroid\Import\Command\AbstractImportCommand;
-
-class ProductImportCommand extends AbstractImportCommand
+class InvalidCommandNameException extends ImportException
 {
 }

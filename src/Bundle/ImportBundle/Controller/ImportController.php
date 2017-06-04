@@ -9,10 +9,9 @@
 
 namespace Endroid\Import\Bundle\ImportBundle\Controller;
 
-use Endroid\Import\Command\AbstractImportCommand;
+use Endroid\Import\Importer\Importer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -27,14 +26,19 @@ class ImportController extends Controller
      */
     public function indexAction($name)
     {
-        $kernel = $this->get('kernel');
-
-        $application = new Application($kernel);
-
-        /** @var AbstractImportCommand $command */
-        $command = $application->find('importer:run:'.$name);
-
-        $importer = $command->getImporter();
+        $importer = $this->getImporter($name);
         $importer->import();
+    }
+
+    /**
+     * @param string $name
+     * @return Importer
+     */
+    protected function getImporter($name)
+    {
+        /** @var Importer $importer */
+        $importer = $this->get('endroid_import.importer.'.$name);
+
+        return $importer;
     }
 }

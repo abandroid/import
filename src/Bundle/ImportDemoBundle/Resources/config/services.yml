@@ -1,22 +1,19 @@
 services:
 
-    # Product Importer
-    endroid_import_demo.importer.product_importer:
+    # Import employees and related data
+    endroid_import_demo.importer.employees:
         class: Endroid\Import\Importer\Importer
         arguments:
             - [
-                  '@endroid_import_demo.loader.product_collection_loader',
-                  '@endroid_import_demo.loader.website_product_loader',
-                  '@endroid_import_demo.loader.mobile_product_loader'
+                  '@endroid_import_demo.loader.employee_loader',
+                  '@endroid_import_demo.loader.office_loader',
+                  '@endroid_import_demo.loader.location_loader'
               ]
-    endroid_import_demo.loader.product_collection_loader:
-        class: Endroid\Import\Bundle\ImportDemoBundle\Loader\ProductCollectionLoader
-    endroid_import_demo.loader.website_product_loader:
-        class: Endroid\Import\Bundle\ImportDemoBundle\Loader\WebsiteProductLoader
-    endroid_import_demo.loader.mobile_product_loader:
-        class: Endroid\Import\Bundle\ImportDemoBundle\Loader\MobileProductLoader
-    endroid_import_demo.command.product_import_command:
-        class: Endroid\Import\Bundle\ImportDemoBundle\Command\ProductImportCommand
-        arguments: [null, '@endroid_import_demo.importer.product_importer']
         tags:
-            - { name: console.command }
+            - { name: endroid.import.importer, alias: employees }
+    endroid_import_demo.loader.employee_loader:
+        class: Endroid\Import\Bundle\ImportDemoBundle\Loader\EmployeeLoader
+    endroid_import_demo.loader.office_loader:
+        class: Endroid\Import\Bundle\ImportDemoBundle\Loader\OfficeLoader
+    endroid_import_demo.loader.location_loader:
+        class: Endroid\Import\Bundle\ImportDemoBundle\Loader\LocationLoader

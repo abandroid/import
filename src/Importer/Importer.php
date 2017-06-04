@@ -143,11 +143,20 @@ class Importer
             while ($this->activeLoader->getActive()) {
                 $data = $this->activeLoader->loadNext();
                 if (!is_null($data)) {
+                    $this->process($data);
                 }
             }
             $this->ensureActiveLoader();
         }
 
         $this->progressHandler->setMessage('Import completed');
+    }
+
+    /**
+     * @param array $data
+     */
+    protected function process(array $data)
+    {
+
     }
 }

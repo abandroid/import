@@ -10,6 +10,7 @@
 namespace Endroid\Import\Bundle\ImportDemoBundle\Command;
 
 use DOMDocument;
+use DOMElement;
 use Endroid\Import\Exception\LockException;
 use Endroid\Import\ProgressHandler\ProgressBarProgressHandler;
 use Endroid\Import\ProgressHandler\ProgressHandlerInterface;
@@ -26,12 +27,21 @@ class GenerateDataCommand extends Command
     protected $progressHandler;
 
     /**
+     * @var array
+     */
+    protected $counts = [
+        'location' => 10,
+        'office' => 10,
+        'employee' => 10
+    ];
+
+    /**
      * {@inheritdoc}
      */
     protected function configure()
     {
         $this
-            ->setName('importer:demo:generate-data')
+            ->setName('endroid:import:generate-demo-data')
             ->setDescription('Generate demo data');
     }
 
@@ -47,95 +57,53 @@ class GenerateDataCommand extends Command
 
         $this->progressHandler = new ProgressBarProgressHandler($input, $output);
 
-        $products = $this->createProducts();
-
-        $this->generateProductCollectionData($products);
-        $this->generateWebsiteProductData($products);
-        $this->generateMobileProductData($products);
+        $this->generateGenericXml('location');
+        $this->generateGenericXml('office');
+        $this->generateGenericXml('employee');
     }
 
     /**
+     * @param string $name
      * @return array
      */
-    protected function createProducts()
+    protected function generateGenericXml($name)
     {
-        $products = [];
-        for ($n = 1; $n <= 3; $n++) {
-            $product = [
-                'id' => $n,
-                'label' => 'Product '.$n,
-                'url' => 'http://endroid.nl/product-'.$n,
-                'phone' => '0600000000'
-            ];
-            $products[] = $product;
+        $document = new DOMDocument('1.0', 'UTF-8');
+        $document->formatOutput = true;
+        $collection = $document->createElement($name.'s');
+        $document->appendChild($collection);
+
+        for ($n = 1; $n <= $this->counts[$name]; $n++) {
+            $element = $document->createElement($name);
+            $element->appendChild($document->createElement('id', $n));
+            $element->appendChild($document->createElement('label', ucfirst($name).' '.$n));
+            if (method_exists($this, 'add'.ucfirst($name).'Fields')) {
+                $this->{'add'.ucfirst($name).'Fields'}($element, $document);
+            }
+            $collection->appendChild($element);
         }
 
-        return $products;
+        $xmlString = $document->saveXML();
+
+        file_put_contents(__DIR__.'/../Resources/data/'.$name.'s.xml', $xmlString);
     }
 
     /**
-     * @param array $products
+     * @param DOMElement $element
+     * @param DOMDocument $document
      */
-    protected function generateProductCollectionData(array $products)
+    protected function addOfficeFields(DOMElement $element, DomDocument $document)
     {
-        $xml = new DOMDocument('1.0', 'UTF-8');
-        $xml->formatOutput = true;
-        $productsXml = $xml->createElement('products');
-        $xml->appendChild($productsXml);
-
-        foreach ($products as $product) {
-            $productXml = $xml->createElement('product');
-            $productXml->appendChild($xml->createElement('id', $product['id']));
-            $productXml->appendChild($xml->createElement('label', $product['label']));
-            $productsXml->appendChild($productXml);
-        }
-
-        $xmlString = $xml->saveXML();
-
-        file_put_contents(__DIR__.'/../Resources/data/product_collection_data.xml', $xmlString);
+        $element->appendChild($document->createElement('location_id', rand(1, $this->counts['location'])));
     }
 
     /**
-     * @param array $products
+     * @param DOMElement $element
+     * @param DOMDocument $document
      */
-    protected function generateWebsiteProductData(array $products)
+    protected function addEmployeeFields(DOMElement $element, DomDocument $document)
     {
-        $xml = new DOMDocument('1.0', 'UTF-8');
-        $xml->formatOutput = true;
-        $productsXml = $xml->createElement('products');
-        $xml->appendChild($productsXml);
-
-        foreach ($products as $product) {
-            $productXml = $xml->createElement('product');
-            $productXml->appendChild($xml->createElement('id', $product['id']));
-            $productXml->appendChild($xml->createElement('url', $product['url']));
-            $productsXml->appendChild($productXml);
-        }
-
-        $xmlString = $xml->saveXML();
-
-        file_put_contents(__DIR__.'/../Resources/data/website_product_data.xml', $xmlString);
-    }
-
-    /**
-     * @param array $products
-     */
-    protected function generateMobileProductData(array $products)
-    {
-        $xml = new DOMDocument('1.0', 'UTF-8');
-        $xml->formatOutput = true;
-        $productsXml = $xml->createElement('products');
-        $xml->appendChild($productsXml);
-
-        foreach ($products as $product) {
-            $productXml = $xml->createElement('product');
-            $productXml->appendChild($xml->createElement('id', $product['id']));
-            $productXml->appendChild($xml->createElement('phone', $product['phone']));
-            $productsXml->appendChild($productXml);
-        }
-
-        $xmlString = $xml->saveXML();
-
-        file_put_contents(__DIR__.'/../Resources/data/mobile_product_data.xml', $xmlString);
+        $element->appendChild($document->createElement('location_id', rand(1, $this->counts['location'])));
+        $element->appendChild($document->createElement('office_id', rand(1, $this->counts['office'])));
     }
 }

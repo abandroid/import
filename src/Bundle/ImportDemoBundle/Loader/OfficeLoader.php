@@ -12,7 +12,7 @@ namespace Endroid\Import\Bundle\ImportDemoBundle\Loader;
 use Endroid\Import\Loader\AbstractLoader;
 use XmlIterator\XmlIterator;
 
-class MobileProductLoader extends AbstractLoader
+class OfficeLoader extends AbstractLoader
 {
     /**
      * @var XmlIterator
@@ -34,7 +34,11 @@ class MobileProductLoader extends AbstractLoader
         $item = $this->iterator->current();
         $this->iterator->next();
 
-        $this->importer->setActiveLoader('website_product_loader');
+        $this->importer->waitFor(function () {
+
+        });
+
+        $this->importer->setActiveLoader('location_loader');
 
         return $item;
     }
@@ -48,7 +52,7 @@ class MobileProductLoader extends AbstractLoader
             return;
         }
 
-        $this->iterator = new XmlIterator(__DIR__.'/../Resources/data/mobile_product_data.xml', 'product');
+        $this->iterator = new XmlIterator(__DIR__.'/../Resources/data/offices.xml', 'offices');
         $this->iterator->rewind();
     }
 
@@ -57,6 +61,6 @@ class MobileProductLoader extends AbstractLoader
      */
     public function getName()
     {
-        return 'mobile_product_loader';
+        return 'office_loader';
     }
 }
