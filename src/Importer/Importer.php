@@ -12,7 +12,7 @@ namespace Endroid\Import\Importer;
 use Endroid\Import\Loader\AbstractLoader;
 use Endroid\Import\ProgressHandler\NullProgressHandler;
 use Endroid\Import\ProgressHandler\ProgressHandlerInterface;
-use Endroid\Import\State;
+use Endroid\Import\State\State;
 
 class Importer
 {
@@ -42,13 +42,12 @@ class Importer
     public function __construct(array $loaders = [])
     {
         $this->loaders = [];
+        $this->state = new State();
+        $this->progressHandler = new NullProgressHandler();
 
         foreach ($loaders as $loader) {
             $this->addLoader($loader);
         }
-
-        $this->state = new State();
-        $this->progressHandler = new NullProgressHandler();
     }
 
     /**
@@ -79,44 +78,84 @@ class Importer
     }
 
     /**
+     * @param int $timeLimit
+     *
+     * @return $this
+     */
+    public function setTimeLimit($timeLimit)
+    {
+        set_time_limit($timeLimit);
+
+        return $this;
+    }
+
+    /**
+     * @param string $memoryLimit
+     *
+     * @return $this
+     */
+    public function setMemoryLimit($memoryLimit)
+    {
+        ini_set('memory_limit', $memoryLimit);
+
+        return $this;
+    }
+
+    /**
      * @param AbstractLoader $loader
      * @return $this
      */
     public function addLoader(AbstractLoader $loader)
     {
-        $this->loaders[$loader->getName()] = $loader;
+        $this->loaders[get_class($loader)] = $loader;
         $loader->setImporter($this);
 
         return $this;
     }
 
     /**
-     * @param string $name
+     * @param string $class
      * @return $this
      */
-    public function setActiveLoader($name)
+    public function setActiveLoader($class)
     {
-        $this->activeLoader = $this->loaders[$name];
+        $this->activeLoader = $this->loaders[$class];
         $this->activeLoader->setActive(true);
 
         return $this;
     }
 
     /**
-     * @return bool
+     * Imports data from all loaders.
      */
-    public function hasActiveLoaders()
+    public function import()
     {
-        foreach ($this->loaders as $loader) {
-            if ($loader->getActive()) {
-                return true;
+        $this->progressHandler->setMessage('Import started');
+
+        $this->initializeLoaders();
+        $this->ensureActiveLoader();
+
+        while ($this->hasActiveLoaders()) {
+            while ($this->activeLoader->getActive()) {
+                $this->activeLoader->loadNext();
             }
+            $this->ensureActiveLoader();
         }
 
-        return false;
+        dump($this->state);
+        die;
+
+        $this->progressHandler->setMessage('Import completed');
     }
 
-    public function ensureActiveLoader()
+    protected function initializeLoaders()
+    {
+        foreach ($this->loaders as $loader) {
+            $loader->initialize();
+        }
+    }
+
+    protected function ensureActiveLoader()
     {
         if ($this->activeLoader instanceof AbstractLoader && $this->activeLoader->getActive()) {
             return;
@@ -131,25 +170,17 @@ class Importer
     }
 
     /**
-     * Imports data from all loaders.
+     * @return bool
      */
-    public function import()
+    public function hasActiveLoaders()
     {
-        $this->progressHandler->setMessage('Import started');
-
-        $this->ensureActiveLoader();
-
-        while ($this->hasActiveLoaders()) {
-            while ($this->activeLoader->getActive()) {
-                $data = $this->activeLoader->loadNext();
-                if (!is_null($data)) {
-                    $this->process($data);
-                }
+        foreach ($this->loaders as $loader) {
+            if ($loader->getActive()) {
+                return true;
             }
-            $this->ensureActiveLoader();
         }
 
-        $this->progressHandler->setMessage('Import completed');
+        return false;
     }
 
     /**

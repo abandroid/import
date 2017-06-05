@@ -34,7 +34,7 @@ class LocationLoader extends AbstractLoader
         $item = $this->iterator->current();
         $this->iterator->next();
 
-        $this->importer->setActiveLoader('employee_loader');
+        $this->importer->setActiveLoader(EmployeeLoader::class);
 
         return $item;
     }

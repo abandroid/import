@@ -34,7 +34,7 @@ class EmployeeLoader extends AbstractLoader
         $item = $this->iterator->current();
         $this->iterator->next();
 
-        $this->importer->setActiveLoader('office_loader');
+        $this->importer->setActiveLoader(OfficeLoader::class);
 
         return $item;
     }

@@ -7,7 +7,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Endroid\Import;
+namespace Endroid\Import\State;
 
 class State
 {
@@ -35,7 +35,7 @@ class State
 
     /**
      * @param string $key
-     * @param $value
+     * @param mixed $value
      */
     public function set($key, $value)
     {

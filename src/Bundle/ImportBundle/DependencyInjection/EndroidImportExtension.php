@@ -27,5 +27,13 @@ class EndroidImportExtension extends Extension
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        $taggedServices = $container->findTaggedServiceIds('endroid.import.importer');
+
+        foreach ($taggedServices as $id => $tags) {
+            $importerDefinition = $container->getDefinition($id);
+            $importerDefinition->addMethodCall('setTimeLimit', [$config['time_limit']]);
+            $importerDefinition->addMethodCall('setMemoryLimit', [$config['memory_limit']]);
+        }
     }
 }

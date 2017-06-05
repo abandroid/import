@@ -11,7 +11,7 @@ namespace Endroid\Import\Loader;
 
 use Endroid\Import\Importer\Importer;
 use Endroid\Import\ProgressHandler\ProgressHandlerInterface;
-use Endroid\Import\State;
+use Endroid\Import\State\State;
 
 abstract class AbstractLoader implements LoaderInterface
 {
@@ -65,13 +65,13 @@ abstract class AbstractLoader implements LoaderInterface
         return $this;
     }
 
+    public function initialize()
+    {
+
+    }
+
     /**
      * @return array
      */
     abstract public function loadNext();
-
-    /**
-     * @return string
-     */
-    abstract public function getName();
 }
