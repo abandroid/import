@@ -22,7 +22,7 @@ class OfficeLoader extends AbstractLoader
     /**
      * {@inheritdoc}
      */
-    public function loadNext()
+    public function load()
     {
         $this->ensureIterator();
 

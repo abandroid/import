@@ -73,5 +73,5 @@ abstract class AbstractLoader implements LoaderInterface
     /**
      * @return array
      */
-    abstract public function loadNext();
+    abstract public function load();
 }

@@ -137,7 +137,7 @@ class Importer
 
         while ($this->hasActiveLoaders()) {
             while ($this->activeLoader->getActive()) {
-                $this->activeLoader->loadNext();
+                $this->activeLoader->load();
             }
             $this->ensureActiveLoader();
         }
