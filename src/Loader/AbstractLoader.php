@@ -36,8 +36,7 @@ abstract class AbstractLoader implements LoaderInterface
     protected $progressHandler;
 
     /**
-     * @param Importer $importer
-     * @return $this
+     * {@inheritdoc}
      */
     public function setImporter(Importer $importer)
     {
@@ -67,11 +66,7 @@ abstract class AbstractLoader implements LoaderInterface
 
     public function initialize()
     {
-
     }
 
-    /**
-     * @return array
-     */
     abstract public function load();
 }

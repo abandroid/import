@@ -9,8 +9,6 @@
 
 namespace Endroid\Import\State;
 
-use Endroid\PropertyAccess\PropertyAccessor;
-
 class State
 {
     /**
@@ -19,34 +17,47 @@ class State
     protected $data;
 
     /**
-     * @var PropertyAccessor
-     */
-    protected $propertyAccessor;
-
-    /**
      * Constructor.
      */
     public function __construct()
     {
         $this->data = [];
-        $this->propertyAccessor = new PropertyAccessor();
     }
 
     /**
-     * @param string $propertyPath
+     * @param string $path
      * @return mixed
      */
-    public function get($propertyPath)
+    public function get($path)
     {
-        return $this->propertyAccessor->getValue($this->data, $propertyPath);
+        $parts = explode('.', $path);
+        $element = $this->data;
+        foreach ($parts as $part) {
+            if (!isset($element[$part])) {
+                return null;
+            }
+            $element = $element[$part];
+        }
+
+        return $element;
     }
 
     /**
-     * @param string $propertyPath
+     * @param string $path
      * @param mixed $value
      */
-    public function set($propertyPath, $value)
+    public function set($path, $value)
     {
-        $this->propertyAccessor->setValue($this->data, $propertyPath, $value);
+        $parts = explode('.', $path);
+        $key = array_pop($parts);
+        $element = &$this->data;
+        foreach ($parts as $part) {
+            if (!isset($element[$part]) || !is_array($element[$part])) {
+                $element[$part] = [];
+                $element = &$element[$part];
+            }
+        }
+
+        $element[$key] = $value;
     }
 }

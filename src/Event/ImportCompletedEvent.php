@@ -13,5 +13,4 @@ use Symfony\Component\EventDispatcher\Event;
 
 class ImportCompletedEvent extends Event
 {
-
 }

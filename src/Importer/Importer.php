@@ -125,6 +125,13 @@ class Importer
         return $this;
     }
 
+    public function setCompleted()
+    {
+        foreach ($this->loaders as $loader) {
+            $loader->setActive(false);
+        }
+    }
+
     /**
      * Imports data from all loaders.
      */
@@ -188,6 +195,5 @@ class Importer
      */
     protected function process(array $data)
     {
-
     }
 }
