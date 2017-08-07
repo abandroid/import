@@ -3,7 +3,7 @@
     "description": "Endroid Import",
     "keywords": ["endroid", "import", "bundle", "symfony"],
     "homepage": "https://github.com/endroid/Import",
-    "type": "symfony-bundle",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {

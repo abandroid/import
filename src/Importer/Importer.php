@@ -149,9 +149,6 @@ class Importer
             $this->ensureActiveLoader();
         }
 
-        dump($this->state);
-        die;
-
         $this->progressHandler->setMessage('Import completed');
     }
 

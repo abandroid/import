@@ -1,5 +1,5 @@
 services:
-    endroid_import_demo.importer.employees:
+    endroid_import.importer.client_data:
         class: Endroid\Import\Importer\Importer
         arguments:
             - [
@@ -8,10 +8,13 @@ services:
                   '@endroid_import_demo.loader.location'
               ]
         tags:
-            - { name: endroid.import.importer, alias: employees }
+            - { name: endroid.import.importer, alias: client-data }
+
     endroid_import_demo.loader.employee:
         class: Endroid\Import\Bundle\ImportDemoBundle\Loader\EmployeeLoader
+
     endroid_import_demo.loader.office:
         class: Endroid\Import\Bundle\ImportDemoBundle\Loader\OfficeLoader
+
     endroid_import_demo.loader.location:
         class: Endroid\Import\Bundle\ImportDemoBundle\Loader\LocationLoader
