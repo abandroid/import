@@ -77,7 +77,7 @@ class ProgressBarProgressHandler implements ProgressHandlerInterface
     public function setMessage($message)
     {
         $this->progressBar->clear();
-        $this->progressBar->setMessage($message);
+        $this->progressBar->setMessage($message."\n");
         $this->progressBar->display();
     }
 

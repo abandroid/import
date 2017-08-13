@@ -51,6 +51,18 @@ class Importer
     }
 
     /**
+     * @param AbstractLoader $loader
+     * @return $this
+     */
+    public function addLoader(AbstractLoader $loader)
+    {
+        $this->loaders[get_class($loader)] = $loader;
+        $loader->setImporter($this);
+
+        return $this;
+    }
+
+    /**
      * @return State
      */
     public function getState()
@@ -102,18 +114,6 @@ class Importer
     }
 
     /**
-     * @param AbstractLoader $loader
-     * @return $this
-     */
-    public function addLoader(AbstractLoader $loader)
-    {
-        $this->loaders[get_class($loader)] = $loader;
-        $loader->setImporter($this);
-
-        return $this;
-    }
-
-    /**
      * @param string $class
      * @return $this
      */
@@ -137,6 +137,7 @@ class Importer
      */
     public function import()
     {
+        $this->progressHandler->start();
         $this->progressHandler->setMessage('Import started');
 
         $this->initializeLoaders();

@@ -15,6 +15,7 @@ use Endroid\Import\Exception\LockException;
 use Endroid\Import\ProgressHandler\ProgressBarProgressHandler;
 use Endroid\Import\ProgressHandler\ProgressHandlerInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\LockHandler;
@@ -30,9 +31,9 @@ class GenerateDataCommand extends Command
      * @var array
      */
     protected $counts = [
-        'location' => 10,
-        'office' => 10,
-        'employee' => 10
+        'location' => 50000,
+        'office' => 50000,
+        'employee' => 50000
     ];
 
     /**
