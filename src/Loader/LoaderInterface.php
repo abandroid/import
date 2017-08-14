@@ -19,7 +19,13 @@ interface LoaderInterface
      */
     public function setImporter(Importer $importer);
 
+    /**
+     *
+     */
     public function initialize();
 
+    /**
+     *
+     */
     public function load();
 }

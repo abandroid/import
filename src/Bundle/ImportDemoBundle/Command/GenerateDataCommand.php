@@ -28,13 +28,9 @@ class GenerateDataCommand extends Command
     protected $progressHandler;
 
     /**
-     * @var array
+     * @var int
      */
-    protected $counts = [
-        'location' => 50000,
-        'office' => 50000,
-        'employee' => 50000
-    ];
+    protected $count;
 
     /**
      * {@inheritdoc}
@@ -42,8 +38,10 @@ class GenerateDataCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('endroid:import:generate-demo-data')
-            ->setDescription('Generate demo data');
+            ->setName('endroid:import-demo:generate-data')
+            ->addArgument('count', InputArgument::OPTIONAL, null, 10000)
+            ->setDescription('Generate demo data')
+        ;
     }
 
     /**
@@ -58,9 +56,11 @@ class GenerateDataCommand extends Command
 
         $this->progressHandler = new ProgressBarProgressHandler($input, $output);
 
-        $this->generateGenericXml('location');
+        $this->generateGenericXml('address');
         $this->generateGenericXml('office');
         $this->generateGenericXml('employee');
+        $this->generateGenericXml('product');
+        $this->generateGenericXml('category');
     }
 
     /**
@@ -74,7 +74,7 @@ class GenerateDataCommand extends Command
         $collection = $document->createElement($name.'s');
         $document->appendChild($collection);
 
-        for ($n = 1; $n <= $this->counts[$name]; $n++) {
+        for ($n = 1; $n <= $this->count; $n++) {
             $element = $document->createElement($name);
             $element->appendChild($document->createElement('id', $n));
             $element->appendChild($document->createElement('label', ucfirst($name).' '.$n));
@@ -86,7 +86,7 @@ class GenerateDataCommand extends Command
 
         $xmlString = $document->saveXML();
 
-        file_put_contents(__DIR__.'/../Resources/data/'.$name.'s.xml', $xmlString);
+        file_put_contents(__DIR__.'/../Resources/data/'.$name.'_data.xml', $xmlString);
     }
 
     /**

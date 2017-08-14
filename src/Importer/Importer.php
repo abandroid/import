@@ -14,7 +14,7 @@ use Endroid\Import\ProgressHandler\NullProgressHandler;
 use Endroid\Import\ProgressHandler\ProgressHandlerInterface;
 use Endroid\Import\State\State;
 
-class Importer
+class Importer implements ImporterInterface
 {
     /**
      * @var AbstractLoader[]
@@ -63,7 +63,7 @@ class Importer
     }
 
     /**
-     * @return State
+     * {@inheritdoc}
      */
     public function getState()
     {

@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="import_example_office")
+ * @ORM\Table(name="import_demo_office")
  */
 class Office
 {
@@ -30,9 +30,14 @@ class Office
     protected $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Endroid\Bundle\ImportBundle\Entity\Location", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Endroid\Bundle\ImportBundle\Entity\Address", cascade={"persist"})
      */
-    protected $location;
+    protected $address;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Endroid\Bundle\ImportBundle\Entity\ProductCategory", cascade={"persist"})
+     */
+    protected $productCategories;
 
     /**
      * @return int
@@ -62,20 +67,20 @@ class Office
     }
 
     /**
-     * @return Location
+     * @return Address
      */
-    public function getLocation()
+    public function getAddress()
     {
-        return $this->location;
+        return $this->address;
     }
 
     /**
-     * @param Location $location
+     * @param Address $address
      * @return $this
      */
-    public function setLocation(Location $location)
+    public function setAddress(Address $address)
     {
-        $this->location = $location;
+        $this->address = $address;
 
         return $this;
     }

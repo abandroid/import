@@ -13,16 +13,20 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="import_example_category")
+ * @ORM\Table(name="import_demo_address")
  */
-class Category
+class Address
 {
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $sourceId;
 
     /**
      * @ORM\Column(type="string")
@@ -35,6 +39,14 @@ class Category
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function setSourceId()
+    {
+        return $this->sourceId;
     }
 
     /**

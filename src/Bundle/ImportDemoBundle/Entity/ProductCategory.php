@@ -13,9 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="import_example_location")
+ * @ORM\Table(name="import_demo_product_category")
  */
-class Location
+class ProductCategory
 {
     /**
      * @ORM\Column(type="integer")

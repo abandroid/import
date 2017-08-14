@@ -64,9 +64,15 @@ abstract class AbstractLoader implements LoaderInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function initialize()
     {
     }
 
+    /**
+     * {@inheritdoc}
+     */
     abstract public function load();
 }

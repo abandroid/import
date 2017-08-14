@@ -2,13 +2,11 @@ services:
     endroid_import.importer.client_data:
         class: Endroid\Import\Importer\Importer
         arguments:
-            - [
-                  '@endroid_import_demo.loader.employee',
-                  '@endroid_import_demo.loader.office',
-                  '@endroid_import_demo.loader.location'
-              ]
+            - [ '@endroid_import_demo.loader.employee',
+                '@endroid_import_demo.loader.office',
+                '@endroid_import_demo.loader.address' ]
         tags:
-            - { name: endroid.import.importer, alias: client-data }
+            - { name: endroid.import.importer, alias: demo-data }
 
     endroid_import_demo.loader.employee:
         class: Endroid\Import\Bundle\ImportDemoBundle\Loader\EmployeeLoader
@@ -16,5 +14,5 @@ services:
     endroid_import_demo.loader.office:
         class: Endroid\Import\Bundle\ImportDemoBundle\Loader\OfficeLoader
 
-    endroid_import_demo.loader.location:
-        class: Endroid\Import\Bundle\ImportDemoBundle\Loader\LocationLoader
+    endroid_import_demo.loader.address:
+        class: Endroid\Import\Bundle\ImportDemoBundle\Loader\AddressLoader

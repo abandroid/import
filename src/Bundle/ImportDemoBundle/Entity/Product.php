@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="import_example_product")
+ * @ORM\Table(name="import_demo_product")
  */
 class Product
 {

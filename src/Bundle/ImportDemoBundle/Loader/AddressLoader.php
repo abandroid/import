@@ -12,7 +12,7 @@ namespace Endroid\Import\Bundle\ImportDemoBundle\Loader;
 use Endroid\Import\Loader\AbstractLoader;
 use XmlIterator\XmlIterator;
 
-class LocationLoader extends AbstractLoader
+class AddressLoader extends AbstractLoader
 {
     /**
      * @var XmlIterator

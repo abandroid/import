@@ -34,7 +34,7 @@ class OfficeLoader extends AbstractLoader
         $item = $this->iterator->current();
         $this->iterator->next();
 
-        $this->importer->setActiveLoader(LocationLoader::class);
+        $this->importer->setActiveLoader(AddressLoader::class);
 
         return $item;
     }
