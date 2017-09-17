@@ -22,34 +22,31 @@ class AddressLoader extends AbstractLoader
     /**
      * {@inheritdoc}
      */
+    public function initialize()
+    {
+        $this->state['addresses'] = [];
+
+        $this->iterator = new XmlIterator(__DIR__.'/../Resources/data/address_data.xml', 'address');
+        $this->iterator->rewind();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function load()
     {
-        $this->ensureIterator();
-
         if (!$this->iterator->valid()) {
             $this->setActive(false);
             return null;
         }
 
         $item = $this->iterator->current();
+        $this->state['addresses'][] = $item;
         $this->iterator->next();
 
         $this->importer->setActiveLoader(EmployeeLoader::class);
 
         return $item;
-    }
-
-    /**
-     * Ensures that the iterator exists.
-     */
-    protected function ensureIterator()
-    {
-        if ($this->iterator instanceof XmlIterator) {
-            return;
-        }
-
-        $this->iterator = new XmlIterator(__DIR__.'/../Resources/data/locations.xml', 'location');
-        $this->iterator->rewind();
     }
 
     /**

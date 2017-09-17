@@ -9,10 +9,28 @@
 
 namespace Endroid\Import\Importer;
 
+use Endroid\Import\ProgressHandler\ProgressHandlerInterface;
+
 interface ImporterInterface
 {
     /**
-     * Imports data from all loaders.
+     * @return array
      */
-    public function import();
+    public function getState(): array;
+
+    /**
+     * @return ProgressHandlerInterface
+     */
+    public function getProgressHandler(): ProgressHandlerInterface;
+
+    /**
+     * @param string $class
+     * @return ImporterInterface
+     */
+    public function setActiveLoader(string $class): ImporterInterface;
+
+    /**
+     * Starts the actual import.
+     */
+    public function import(): void;
 }

@@ -26,7 +26,7 @@ class ImporterCompilerPass implements CompilerPassInterface
 
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $attributes) {
-                $name = $attributes['alias'];
+                $name = $attributes['importer'];
                 $commandDefinition = new Definition(ImportCommand::class, ['endroid:import:'.$name, new Reference($id)]);
                 $commandDefinition->addTag('console.command');
                 $container->setDefinition('endroid_import.command.'.$name, $commandDefinition);

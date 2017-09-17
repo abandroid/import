@@ -39,7 +39,7 @@ class GenerateDataCommand extends Command
     {
         $this
             ->setName('endroid:import-demo:generate-data')
-            ->addArgument('count', InputArgument::OPTIONAL, null, 10000)
+            ->addArgument('count', InputArgument::OPTIONAL, null, 100)
             ->setDescription('Generate demo data')
         ;
     }
@@ -53,6 +53,8 @@ class GenerateDataCommand extends Command
         if (!$lock->lock()) {
             throw new LockException('Lock could not be obtained');
         }
+
+        $this->count = $input->getArgument('count');
 
         $this->progressHandler = new ProgressBarProgressHandler($input, $output);
 
@@ -95,7 +97,7 @@ class GenerateDataCommand extends Command
      */
     protected function addOfficeFields(DOMElement $element, DomDocument $document)
     {
-        $element->appendChild($document->createElement('location_id', rand(1, $this->counts['location'])));
+        $element->appendChild($document->createElement('location_id', rand(1, $this->count)));
     }
 
     /**
@@ -104,7 +106,7 @@ class GenerateDataCommand extends Command
      */
     protected function addEmployeeFields(DOMElement $element, DomDocument $document)
     {
-        $element->appendChild($document->createElement('location_id', rand(1, $this->counts['location'])));
-        $element->appendChild($document->createElement('office_id', rand(1, $this->counts['office'])));
+        $element->appendChild($document->createElement('location_id', rand(1, $this->count)));
+        $element->appendChild($document->createElement('office_id', rand(1, $this->count)));
     }
 }

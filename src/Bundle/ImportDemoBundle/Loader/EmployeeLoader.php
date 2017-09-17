@@ -22,34 +22,31 @@ class EmployeeLoader extends AbstractLoader
     /**
      * {@inheritdoc}
      */
+    public function initialize()
+    {
+        $this->state['employees'] = [];
+
+        $this->iterator = new XmlIterator(__DIR__.'/../Resources/data/employee_data.xml', 'employee');
+        $this->iterator->rewind();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function load()
     {
-        $this->ensureIterator();
-
         if (!$this->iterator->valid()) {
             $this->setActive(false);
             return null;
         }
 
         $item = $this->iterator->current();
+        $this->state['employees'][] = $item;
         $this->iterator->next();
 
         $this->importer->setActiveLoader(OfficeLoader::class);
 
         return $item;
-    }
-
-    /**
-     * Ensures that the iterator exists.
-     */
-    protected function ensureIterator()
-    {
-        if ($this->iterator instanceof XmlIterator) {
-            return;
-        }
-
-        $this->iterator = new XmlIterator(__DIR__.'/../Resources/data/employees.xml', 'employee');
-        $this->iterator->rewind();
     }
 
     /**

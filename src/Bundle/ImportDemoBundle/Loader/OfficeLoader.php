@@ -22,34 +22,31 @@ class OfficeLoader extends AbstractLoader
     /**
      * {@inheritdoc}
      */
+    public function initialize()
+    {
+        $this->state['offices'] = [];
+
+        $this->iterator = new XmlIterator(__DIR__.'/../Resources/data/office_data.xml', 'office');
+        $this->iterator->rewind();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function load()
     {
-        $this->ensureIterator();
-
         if (!$this->iterator->valid()) {
             $this->setActive(false);
             return null;
         }
 
         $item = $this->iterator->current();
+        $this->state['offices'][] = $item;
         $this->iterator->next();
 
         $this->importer->setActiveLoader(AddressLoader::class);
 
         return $item;
-    }
-
-    /**
-     * Ensures that the iterator exists.
-     */
-    protected function ensureIterator()
-    {
-        if ($this->iterator instanceof XmlIterator) {
-            return;
-        }
-
-        $this->iterator = new XmlIterator(__DIR__.'/../Resources/data/offices.xml', 'offices');
-        $this->iterator->rewind();
     }
 
     /**

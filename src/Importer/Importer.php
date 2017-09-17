@@ -9,25 +9,24 @@
 
 namespace Endroid\Import\Importer;
 
-use Endroid\Import\Loader\AbstractLoader;
+use Endroid\Import\Loader\LoaderInterface;
 use Endroid\Import\ProgressHandler\NullProgressHandler;
 use Endroid\Import\ProgressHandler\ProgressHandlerInterface;
-use Endroid\Import\State\State;
 
 class Importer implements ImporterInterface
 {
     /**
-     * @var AbstractLoader[]
+     * @var LoaderInterface[]
      */
     protected $loaders;
 
     /**
-     * @var AbstractLoader
+     * @var LoaderInterface
      */
     protected $activeLoader;
 
     /**
-     * @var State
+     * @var array
      */
     protected $state;
 
@@ -37,12 +36,12 @@ class Importer implements ImporterInterface
     protected $progressHandler;
 
     /**
-     * @param AbstractLoader[] $loaders
+     * @param LoaderInterface[] $loaders
      */
     public function __construct(array $loaders = [])
     {
         $this->loaders = [];
-        $this->state = new State();
+        $this->state = [];
         $this->progressHandler = new NullProgressHandler();
 
         foreach ($loaders as $loader) {
@@ -51,10 +50,10 @@ class Importer implements ImporterInterface
     }
 
     /**
-     * @param AbstractLoader $loader
+     * @param LoaderInterface $loader
      * @return $this
      */
-    public function addLoader(AbstractLoader $loader)
+    public function addLoader(LoaderInterface $loader)
     {
         $this->loaders[get_class($loader)] = $loader;
         $loader->setImporter($this);
@@ -65,7 +64,7 @@ class Importer implements ImporterInterface
     /**
      * {@inheritdoc}
      */
-    public function getState()
+    public function &getState(): array
     {
         return $this->state;
     }
@@ -84,7 +83,7 @@ class Importer implements ImporterInterface
     /**
      * @return ProgressHandlerInterface
      */
-    public function getProgressHandler()
+    public function getProgressHandler(): ProgressHandlerInterface
     {
         return $this->progressHandler;
     }
@@ -114,10 +113,9 @@ class Importer implements ImporterInterface
     }
 
     /**
-     * @param string $class
-     * @return $this
+     * {@inheritdoc}
      */
-    public function setActiveLoader($class)
+    public function setActiveLoader(string $class): ImporterInterface
     {
         $this->activeLoader = $this->loaders[$class];
         $this->activeLoader->setActive(true);
@@ -135,7 +133,7 @@ class Importer implements ImporterInterface
     /**
      * Imports data from all loaders.
      */
-    public function import()
+    public function import(): void
     {
         $this->progressHandler->start();
         $this->progressHandler->setMessage('Import started');
@@ -162,7 +160,7 @@ class Importer implements ImporterInterface
 
     protected function ensureActiveLoader()
     {
-        if ($this->activeLoader instanceof AbstractLoader && $this->activeLoader->getActive()) {
+        if ($this->activeLoader instanceof LoaderInterface && $this->activeLoader->getActive()) {
             return;
         }
 

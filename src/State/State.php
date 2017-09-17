@@ -9,7 +9,9 @@
 
 namespace Endroid\Import\State;
 
-class State
+use ArrayAccess;
+
+class State implements ArrayAccess
 {
     /**
      * @var array
@@ -25,39 +27,40 @@ class State
     }
 
     /**
-     * @param string $path
-     * @return mixed
+     * {@inheritdoc}
      */
-    public function get($path)
+    public function offsetExists($offset)
     {
-        $parts = explode('.', $path);
-        $element = $this->data;
-        foreach ($parts as $part) {
-            if (!isset($element[$part])) {
-                return null;
-            }
-            $element = $element[$part];
-        }
-
-        return $element;
+        return isset($this->data[$offset]);
     }
 
     /**
-     * @param string $path
-     * @param mixed $value
+     * {@inheritdoc}
      */
-    public function set($path, $value)
+    public function &offsetGet($offset)
     {
-        $parts = explode('.', $path);
-        $key = array_pop($parts);
-        $element = &$this->data;
-        foreach ($parts as $part) {
-            if (!isset($element[$part]) || !is_array($element[$part])) {
-                $element[$part] = [];
-                $element = &$element[$part];
-            }
-        }
+        $data = isset($this->data[$offset]) ? $this->data[$offset] : null;
 
-        $element[$key] = $value;
+        return $data;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetSet($offset, $value)
+    {
+        if (is_null($offset)) {
+            $this->data[] = $value;
+        } else {
+            $this->data[$offset] = $value;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetUnset($offset)
+    {
+        unset($this->data[$offset]);
     }
 }

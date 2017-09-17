@@ -9,14 +9,13 @@
 
 namespace Endroid\Import\Loader;
 
-use Endroid\Import\Importer\Importer;
+use Endroid\Import\Importer\ImporterInterface;
 use Endroid\Import\ProgressHandler\ProgressHandlerInterface;
-use Endroid\Import\State\State;
 
 abstract class AbstractLoader implements LoaderInterface
 {
     /**
-     * @var Importer
+     * @var ImporterInterface
      */
     protected $importer;
 
@@ -26,7 +25,7 @@ abstract class AbstractLoader implements LoaderInterface
     protected $active = true;
 
     /**
-     * @var State
+     * @var array
      */
     protected $state;
 
@@ -38,15 +37,17 @@ abstract class AbstractLoader implements LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function setImporter(Importer $importer)
+    public function setImporter(ImporterInterface $importer)
     {
         $this->importer = $importer;
-        $this->state = $importer->getState();
         $this->progressHandler = $importer->getProgressHandler();
+
+        // The state is not an object so we need to explicitly reference
+        $this->state = &$importer->getState();
     }
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
     public function getActive()
     {
@@ -54,8 +55,7 @@ abstract class AbstractLoader implements LoaderInterface
     }
 
     /**
-     * @param bool $active
-     * @return $this
+     * {@inheritdoc}
      */
     public function setActive($active)
     {
@@ -69,6 +69,8 @@ abstract class AbstractLoader implements LoaderInterface
      */
     public function initialize()
     {
+        // Does nothing by default
+        // Not required to run the import
     }
 
     /**
