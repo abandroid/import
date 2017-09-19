@@ -57,6 +57,7 @@ class Employee
 
     /**
      * @param string $name
+     *
      * @return $this
      */
     public function setName($name)
@@ -76,6 +77,7 @@ class Employee
 
     /**
      * @param Address $address
+     *
      * @return $this
      */
     public function setAddress($address)
@@ -95,6 +97,7 @@ class Employee
 
     /**
      * @param Office $office
+     *
      * @return $this
      */
     public function setOffice(Office $office)

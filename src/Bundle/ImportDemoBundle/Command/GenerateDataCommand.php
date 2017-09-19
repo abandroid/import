@@ -67,6 +67,7 @@ class GenerateDataCommand extends Command
 
     /**
      * @param string $name
+     *
      * @return array
      */
     protected function generateGenericXml($name)
@@ -76,7 +77,7 @@ class GenerateDataCommand extends Command
         $collection = $document->createElement($name.'s');
         $document->appendChild($collection);
 
-        for ($n = 1; $n <= $this->count; $n++) {
+        for ($n = 1; $n <= $this->count; ++$n) {
             $element = $document->createElement($name);
             $element->appendChild($document->createElement('id', $n));
             $element->appendChild($document->createElement('label', ucfirst($name).' '.$n));
@@ -92,7 +93,7 @@ class GenerateDataCommand extends Command
     }
 
     /**
-     * @param DOMElement $element
+     * @param DOMElement  $element
      * @param DOMDocument $document
      */
     protected function addOfficeFields(DOMElement $element, DomDocument $document)
@@ -101,7 +102,7 @@ class GenerateDataCommand extends Command
     }
 
     /**
-     * @param DOMElement $element
+     * @param DOMElement  $element
      * @param DOMDocument $document
      */
     protected function addEmployeeFields(DOMElement $element, DomDocument $document)

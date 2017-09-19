@@ -25,6 +25,7 @@ interface ImporterInterface
 
     /**
      * @param string $class
+     *
      * @return ImporterInterface
      */
     public function setActiveLoader(string $class): ImporterInterface;

@@ -19,6 +19,7 @@ interface LoaderInterface
      * passes the global state and progress handler.
      *
      * @param ImporterInterface $importer
+     *
      * @return $this
      */
     public function setImporter(ImporterInterface $importer);
@@ -35,6 +36,7 @@ interface LoaderInterface
      * will be ignored by the importer.
      *
      * @param bool $active
+     *
      * @return $this
      */
     public function setActive($active);

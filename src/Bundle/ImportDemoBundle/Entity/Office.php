@@ -57,6 +57,7 @@ class Office
 
     /**
      * @param string $name
+     *
      * @return $this
      */
     public function setName($name)
@@ -76,6 +77,7 @@ class Office
 
     /**
      * @param Address $address
+     *
      * @return $this
      */
     public function setAddress(Address $address)

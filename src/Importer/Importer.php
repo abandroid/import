@@ -51,6 +51,7 @@ class Importer implements ImporterInterface
 
     /**
      * @param LoaderInterface $loader
+     *
      * @return $this
      */
     public function addLoader(LoaderInterface $loader)
@@ -71,6 +72,7 @@ class Importer implements ImporterInterface
 
     /**
      * @param ProgressHandlerInterface $progressHandler
+     *
      * @return $this
      */
     public function setProgressHandler(ProgressHandlerInterface $progressHandler)
@@ -167,6 +169,7 @@ class Importer implements ImporterInterface
         foreach ($this->loaders as $loader) {
             if ($loader->getActive()) {
                 $this->activeLoader = $loader;
+
                 return;
             }
         }

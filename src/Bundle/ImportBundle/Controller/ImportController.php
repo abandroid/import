@@ -22,6 +22,7 @@ class ImportController extends Controller
      * @Template()
      *
      * @param string $name
+     *
      * @return Response
      */
     public function indexAction($name)
@@ -32,6 +33,7 @@ class ImportController extends Controller
 
     /**
      * @param string $name
+     *
      * @return Importer
      */
     protected function getImporter($name)

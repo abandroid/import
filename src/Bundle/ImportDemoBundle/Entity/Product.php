@@ -47,6 +47,7 @@ class Product
 
     /**
      * @param string $name
+     *
      * @return $this
      */
     public function setName($name)

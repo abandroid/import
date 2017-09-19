@@ -25,7 +25,7 @@ class ImportCommand extends Command
     protected $importer;
 
     /**
-     * @param string $name
+     * @param string   $name
      * @param Importer $importer
      */
     public function __construct($name, Importer $importer)

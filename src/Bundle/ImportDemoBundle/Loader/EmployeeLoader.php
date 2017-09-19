@@ -37,6 +37,7 @@ class EmployeeLoader extends AbstractLoader
     {
         if (!$this->iterator->valid()) {
             $this->setActive(false);
+
             return null;
         }
 

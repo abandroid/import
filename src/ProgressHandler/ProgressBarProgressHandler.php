@@ -48,7 +48,7 @@ class ProgressBarProgressHandler implements ProgressHandlerInterface
     public function start($count = 0)
     {
         $this->progressBar = new ProgressBar($this->output, $count);
-        $this->progressBar->setFormat($count == 0 ? '%current% [%bar%] %message%' : '%current%/%max% [%bar%] %message%');
+        $this->progressBar->setFormat(0 == $count ? '%current% [%bar%] %message%' : '%current%/%max% [%bar%] %message%');
         $this->progressBar->setBarCharacter('<fg=magenta>=</fg=magenta>');
         $this->progressBar->display();
     }
