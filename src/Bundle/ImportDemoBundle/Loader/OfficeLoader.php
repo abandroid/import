@@ -14,15 +14,10 @@ use XmlIterator\XmlIterator;
 
 class OfficeLoader extends AbstractLoader
 {
-    /**
-     * @var XmlIterator
-     */
+    /** @var XmlIterator $iterator */
     protected $iterator;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function initialize()
+    public function initialize(): void
     {
         $this->state['offices'] = [];
 
@@ -30,15 +25,12 @@ class OfficeLoader extends AbstractLoader
         $this->iterator->rewind();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function load()
+    public function load(): void
     {
         if (!$this->iterator->valid()) {
-            $this->setActive(false);
+            $this->deactivate();
 
-            return null;
+            return;
         }
 
         $item = $this->iterator->current();
@@ -46,15 +38,5 @@ class OfficeLoader extends AbstractLoader
         $this->iterator->next();
 
         $this->importer->setActiveLoader(AddressLoader::class);
-
-        return $item;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'office_loader';
     }
 }

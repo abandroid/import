@@ -14,67 +14,44 @@ use Endroid\Import\ProgressHandler\ProgressHandlerInterface;
 
 abstract class AbstractLoader implements LoaderInterface
 {
-    /**
-     * @var ImporterInterface
-     */
+    /** @var ImporterInterface $importer */
     protected $importer;
 
-    /**
-     * @var bool
-     */
-    protected $active = true;
-
-    /**
-     * @var array
-     */
-    protected $state;
-
-    /**
-     * @var ProgressHandlerInterface
-     */
     protected $progressHandler;
+    protected $state;
+    protected $isActive = true;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setImporter(ImporterInterface $importer)
+    public function setImporter(ImporterInterface $importer): void
     {
         $this->importer = $importer;
-        $this->progressHandler = $importer->getProgressHandler();
-
-        // The state is not an object so we need to explicitly reference
-        $this->state = &$importer->getState();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getActive()
+    public function setProgressHandler(ProgressHandlerInterface $progressHandler): void
     {
-        return $this->active;
+        $this->progressHandler = $progressHandler;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setActive($active)
+    public function setState(array &$state): void
     {
-        $this->active = $active;
-
-        return $this;
+        $this->state = &$state;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function initialize()
+    public function activate(): void
     {
-        // Does nothing by default
-        // Not required to run the import
+        $this->isActive = true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    abstract public function load();
+    public function deactivate(): void
+    {
+        $this->isActive = false;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    abstract public function initialize(): void;
+
+    abstract public function load(): void;
 }

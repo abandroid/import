@@ -10,47 +10,23 @@
 namespace Endroid\Import\Loader;
 
 use Endroid\Import\Importer\ImporterInterface;
+use Endroid\Import\ProgressHandler\ProgressHandlerInterface;
 
 interface LoaderInterface
 {
-    /**
-     * The loader needs to know the importer to be able to
-     * pass control to another loader. The importer also
-     * passes the global state and progress handler.
-     *
-     * @param ImporterInterface $importer
-     *
-     * @return $this
-     */
-    public function setImporter(ImporterInterface $importer);
+    public function setImporter(ImporterInterface $importer): void;
 
-    /**
-     * Returns the active state.
-     *
-     * @return bool
-     */
-    public function getActive();
+    public function setProgressHandler(ProgressHandlerInterface $progressHandler): void;
 
-    /**
-     * Sets the active state. When set to inactive this loader
-     * will be ignored by the importer.
-     *
-     * @param bool $active
-     *
-     * @return $this
-     */
-    public function setActive($active);
+    public function setState(array &$state): void;
 
-    /**
-     * Prepares the loader so it can be used. Try to keep the
-     * footprint of this method as small as possible as it is
-     * even executed when the load method is never called.
-     */
-    public function initialize();
+    public function activate(): void;
 
-    /**
-     * Loads data from a data source and adds all necessary
-     * data to the state. Might include some pre-processing.
-     */
-    public function load();
+    public function deactivate(): void;
+
+    public function isActive(): bool;
+
+    public function initialize(): void;
+
+    public function load(): void;
 }

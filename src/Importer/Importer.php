@@ -15,29 +15,10 @@ use Endroid\Import\ProgressHandler\ProgressHandlerInterface;
 
 class Importer implements ImporterInterface
 {
-    /**
-     * @var LoaderInterface[]
-     */
     protected $loaders;
-
-    /**
-     * @var LoaderInterface
-     */
-    protected $activeLoader;
-
-    /**
-     * @var array
-     */
     protected $state;
-
-    /**
-     * @var ProgressHandlerInterface
-     */
     protected $progressHandler;
 
-    /**
-     * @param LoaderInterface[] $loaders
-     */
     public function __construct(array $loaders = [])
     {
         $this->loaders = [];
@@ -49,150 +30,69 @@ class Importer implements ImporterInterface
         }
     }
 
-    /**
-     * @param LoaderInterface $loader
-     *
-     * @return $this
-     */
-    public function addLoader(LoaderInterface $loader)
+    public function addLoader(LoaderInterface $loader): void
     {
         $this->loaders[get_class($loader)] = $loader;
         $loader->setImporter($this);
-
-        return $this;
+        $loader->setProgressHandler($this->progressHandler);
+        $loader->setState($this->state);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function &getState(): array
-    {
-        return $this->state;
-    }
-
-    /**
-     * @param ProgressHandlerInterface $progressHandler
-     *
-     * @return $this
-     */
-    public function setProgressHandler(ProgressHandlerInterface $progressHandler)
+    public function setProgressHandler(ProgressHandlerInterface $progressHandler): void
     {
         $this->progressHandler = $progressHandler;
 
-        return $this;
-    }
-
-    /**
-     * @return ProgressHandlerInterface
-     */
-    public function getProgressHandler(): ProgressHandlerInterface
-    {
-        return $this->progressHandler;
-    }
-
-    /**
-     * @param int $timeLimit
-     *
-     * @return $this
-     */
-    public function setTimeLimit($timeLimit)
-    {
-        set_time_limit($timeLimit);
-
-        return $this;
-    }
-
-    /**
-     * @param string $memoryLimit
-     *
-     * @return $this
-     */
-    public function setMemoryLimit($memoryLimit)
-    {
-        ini_set('memory_limit', $memoryLimit);
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setActiveLoader(string $class): ImporterInterface
-    {
-        $this->activeLoader = $this->loaders[$class];
-        $this->activeLoader->setActive(true);
-
-        return $this;
-    }
-
-    public function setCompleted()
-    {
         foreach ($this->loaders as $loader) {
-            $loader->setActive(false);
+            $loader->setProgressHandler($progressHandler);
         }
     }
 
-    /**
-     * Imports data from all loaders.
-     */
+    public function setActiveLoader(string $class): void
+    {
+        $loader = $this->loaders[$class];
+        unset($this->loaders[$class]);
+
+        // Set the active loader as the first loader to run
+        $this->loaders = [$class => $loader] + $this->loaders;
+
+        $loader->activate();
+    }
+
     public function import(): void
     {
         $this->progressHandler->start();
         $this->progressHandler->setMessage('Import started');
 
-        $this->initializeLoaders();
-        $this->ensureActiveLoader();
+        foreach ($this->loaders as $loader) {
+            $loader->initialize();
+        }
 
-        while ($this->hasActiveLoaders()) {
-            while ($this->activeLoader->getActive()) {
-                $this->activeLoader->load();
+        $activeLoader = $this->getActiveLoader();
+        while ($activeLoader instanceof LoaderInterface) {
+            while ($activeLoader->isActive()) {
+                $activeLoader->load();
             }
-            $this->ensureActiveLoader();
+            $activeLoader = $this->getActiveLoader();
         }
 
         $this->progressHandler->setMessage('Import completed');
     }
 
-    protected function initializeLoaders()
+    protected function getActiveLoader(): ?LoaderInterface
     {
         foreach ($this->loaders as $loader) {
-            $loader->initialize();
-        }
-    }
-
-    protected function ensureActiveLoader()
-    {
-        if ($this->activeLoader instanceof LoaderInterface && $this->activeLoader->getActive()) {
-            return;
-        }
-
-        foreach ($this->loaders as $loader) {
-            if ($loader->getActive()) {
-                $this->activeLoader = $loader;
-
-                return;
-            }
-        }
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasActiveLoaders()
-    {
-        foreach ($this->loaders as $loader) {
-            if ($loader->getActive()) {
-                return true;
+            if ($loader->isActive()) {
+                return $loader;
             }
         }
 
-        return false;
+        return null;
     }
 
-    /**
-     * @param array $data
-     */
-    protected function process(array $data)
+    public function setCompleted(): void
     {
+        foreach ($this->loaders as $loader) {
+            $loader->deactivate();
+        }
     }
 }
