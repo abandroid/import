@@ -1,7 +1,7 @@
 Import
 ======
 
-*By [endroid](http://endroid.nl/)*
+*By [endroid](https://endroid.nl/)*
 
 [![Latest Stable Version](http://img.shields.io/packagist/v/endroid/import.svg)](https://packagist.org/packages/endroid/import)
 [![Build Status](http://img.shields.io/travis/endroid/Import.svg)](http://travis-ci.org/endroid/Import)
