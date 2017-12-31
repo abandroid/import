@@ -1,7 +1,7 @@
 {
     "name": "endroid/import",
     "description": "Endroid Import",
-    "keywords": ["endroid", "import", "bundle", "symfony"],
+    "keywords": ["endroid", "import", "php"],
     "homepage": "https://github.com/endroid/import",
     "type": "library",
     "license": "MIT",
@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "php": ">=5.6",
+        "php": ">=7.1",
         "ext-gd": "*",
         "halilim/xml-iterator": "^1.0",
         "league/flysystem": "^1.0",
@@ -21,17 +21,7 @@
         "endroid/flusher": "^2.0"
     },
     "require-dev": {
-        "symfony/asset": ">=2.7",
-        "symfony/browser-kit": ">=2.7",
-        "symfony/css-selector": ">=2.7",
-        "symfony/finder": ">=2.7",
-        "symfony/framework-bundle": ">=2.7",
-        "symfony/http-kernel": ">=2.7",
-        "symfony/templating": ">=2.7",
-        "symfony/twig-bundle": ">=2.7",
-        "symfony/yaml": ">=2.7",
-        "sensio/framework-extra-bundle": "^3.0",
-        "phpunit/phpunit": ">=5.7"
+        "phpunit/phpunit": "^5.7|^6.0"
     },
     "autoload": {
         "psr-4": {
@@ -43,12 +33,9 @@
             "Endroid\\Import\\Tests\\": "tests/"
         }
     },
-    "config": {
-        "bin-dir": "bin"
-    },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.x-dev"
+            "dev-master": "2.x-dev"
         }
     }
 }
