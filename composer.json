@@ -17,7 +17,7 @@
         "ext-gd": "*",
         "halilim/xml-iterator": "^1.0",
         "league/flysystem": "^1.0",
-        "endroid/property-access": "^1.1",
+        "endroid/property-access": "^2.0",
         "endroid/flusher": "^2.0"
     },
     "require-dev": {
