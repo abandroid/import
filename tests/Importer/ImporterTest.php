@@ -1,0 +1,24 @@
+<?php
+
+/*
+ * (c) Jeroen van den Enden <info@endroid.nl>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
+namespace Endroid\Import;
+
+use Endroid\Import\Importer\Importer;
+use PHPUnit\Framework\TestCase;
+
+class ImporterTest extends TestCase
+{
+    public function testCreate()
+    {
+        $importer = new Importer();
+        $importer->import();
+
+        $this->assertInstanceOf(Importer::class, $importer);
+    }
+}
