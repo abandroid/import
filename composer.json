@@ -14,10 +14,11 @@
     "require": {
         "php": ">=7.1",
         "ext-gd": "*",
-        "halilim/xml-iterator": "^1.0",
-        "league/flysystem": "^1.0",
+        "endroid/flusher": "^2.0",
+        "endroid/installer": "^1.0",
         "endroid/property-access": "^2.0",
-        "endroid/flusher": "^2.0"
+        "halilim/xml-iterator": "^1.0",
+        "league/flysystem": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7|^6.0"
