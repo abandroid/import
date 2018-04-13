@@ -15,7 +15,7 @@
         "php": ">=7.1",
         "ext-gd": "*",
         "endroid/flusher": "^2.0",
-        "endroid/installer": "^1.0",
+        "endroid/installer": "^1.0.3",
         "endroid/property-access": "^2.0",
         "halilim/xml-iterator": "^1.0",
         "league/flysystem": "^1.0"
