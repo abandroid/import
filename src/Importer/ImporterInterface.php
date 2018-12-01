@@ -20,4 +20,6 @@ interface ImporterInterface
     public function setActiveLoader(string $class): void;
 
     public function import(): void;
+
+    public function getName(): string;
 }
