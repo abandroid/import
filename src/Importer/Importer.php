@@ -97,4 +97,6 @@ class Importer implements ImporterInterface
             $loader->deactivate();
         }
     }
+
+    public abstract function getName(): string;
 }
