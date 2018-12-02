@@ -98,5 +98,8 @@ class Importer implements ImporterInterface
         }
     }
 
-    public abstract function getName(): string;
+    public function getName(): string
+    {
+        return 'importer';
+    }
 }
