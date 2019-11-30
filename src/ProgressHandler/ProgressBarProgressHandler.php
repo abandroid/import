@@ -34,9 +34,6 @@ class ProgressBarProgressHandler implements ProgressHandlerInterface
 
     /**
      * Creates a new instance.
-     *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
      */
     public function __construct(InputInterface $input, OutputInterface $output)
     {
