@@ -15,13 +15,16 @@
         "php": ">=7.2",
         "ext-gd": "*",
         "endroid/flusher": "^2.0",
-        "endroid/installer": "^1.0.3",
         "endroid/property-access": "^2.0",
         "halilim/xml-iterator": "^1.0",
         "league/flysystem": "^1.0"
     },
     "require-dev": {
-        "endroid/test": "dev-master"
+        "endroid/quality": "dev-master"
+    },
+    "suggest": {
+        "roave/security-advisories": "Avoids installation of package versions with vulnerabilities",
+        "symfony/security-checker": "Checks your composer.lock for vulnerabilities"
     },
     "autoload": {
         "psr-4": {
